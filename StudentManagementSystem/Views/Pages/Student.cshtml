@@ -1,0 +1,249 @@
+﻿@{
+    ViewData["Title"] = "Add Student Details";
+}
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    .main-container {
+        padding: 2rem;
+        margin-top: 2rem;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+    }
+</style>
+
+<div class="container main-container">
+    <form id="studentForm" enctype="multipart/form-data">
+        <h4 class="mb-4 text-muted">Add Student Details</h4>
+        <div class="row">
+            <!-- Basic Information Card -->
+            <div class="col-md-12 col-lg-6 mb-4">
+                <div class="card border-0 rounded-0 shadow-sm h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h5>Basic Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group mb-3">
+                            <label for="index">Index Number</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control rounded-0" id="index" required placeholder="Enter Index Number" readonly>
+                                <input type="hidden" class="form-control" id="studentId" value="0" />
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="fname">Full Name</label>
+                            <input type="text" class="form-control rounded-0" id="fname" placeholder="Enter Full Name" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="nameini">Name With Initials</label>
+                            <input type="text" class="form-control rounded-0" id="nameini" required placeholder="Enter Name with Initials">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="Dob">Date Of Birth</label>
+                            <input type="date" class="form-control rounded-0" id="Dob" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender" class="form-control rounded-0" required>
+                                <option value="" disabled selected>Select One</option>
+                                <option value="Female">Female</option>
+                                <option value="Male">Male</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="sEmail">Student Email</label>
+                            <input type="email" class="form-control rounded-0" id="sEmail" placeholder="Enter Email" required>
+                            <div class="invalid-feedback">
+                                Please enter a valid email address.
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="file">Select Student's Image</label>
+                            <input type="file" class="form-control rounded-0" id="file" accept="image/*" onchange="previewImage(event)">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Student's Image</label>
+                            <div class="thumbnail text-center">
+                                <img id="imageSrc" src="" alt="Student Image" class="img-fluid" style="display: none; max-width: 200px; max-height: 150px;">
+                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="clearFile()">Clear File</button>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="comments">Comments</label>
+                            <textarea class="form-control rounded-0" id="comments" placeholder="Enter Any Comment Here" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Contact Information Card -->
+            <div class="col-md-12 col-lg-6 mb-4">
+                <div class="card border-0 rounded-0 shadow-sm h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h5>Contact Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group mb-3">
+                            <label for="address">Address</label>
+                            <input type="text" class="form-control rounded-0" id="address" required placeholder="Enter Address">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="guardian">Guardian</label>
+                            <input type="text" class="form-control rounded-0" id="guardian" required placeholder="Enter Guardian's Name">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="Email">Guardian Email</label>
+                            <input type="email" class="form-control rounded-0" id="Email" minlength="10" maxlength="60" placeholder="Enter Guardian Email" required>
+                            <div class="invalid-feedback">
+                                Please enter a valid email address.
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="Telephone">Telephone</label>
+                            <input type="tel" class="form-control rounded-0" id="Telephone" minlength="10" maxlength="20" placeholder="Enter Telephone Number">
+                        </div>
+                        <div class="form-group mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="active">
+                            <label class="form-check-label" for="active">Active Status</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Form Buttons -->
+        <div class="form-group text-end">
+            <button type="button" class="btn btn-outline-secondary rounded-0" onclick="clearStudentForm()">Clear</button>
+            <button type="button" class="btn btn-primary rounded-0" onclick="saveStudent()">Submit</button>
+        </div>
+    </form>
+
+        <div class="row mt-6">
+            <div class="col-12">
+                <div class="card shadow-sm rounded-3">
+                    <div class="card-header bg-primary text-white">
+                        <h6 class="card-title mb-0">Saved Students</h6>
+                    </div>
+                    <div class="card-body table-responsive p-0" id="datatable">
+                        <table class="table table-hover text-nowrap" id="studentTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th hidden="hidden">Id</th>
+                                    <th>Index</th>
+                                    <th>Full Name</th>
+                                    <th>Date Of Birth</th>
+                                    <th>Gender</th>
+                                    <th>Student Email</th>
+                                   @*  <th>Address</th> *@
+                                    <th>Telephone</th>
+                                    <th>Active</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyStudent"></tbody>
+                        </table>
+                        <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                            <!-- DataTable buttons will be appended here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    <style>
+        /* Ensure headers are properly aligned and centered */
+        .table th {
+            background-color: #007bff;
+            color: white;
+            text-align: left;
+            vertical-align: middle;
+            padding: 10px;
+            white-space: nowrap; /* Prevent header text from wrapping */
+         /*    border: 1px solid #dee2e6; /* Border for table header */ */
+        }
+
+        /* Style for table data with only horizontal borders */
+        .table td {
+            text-align: left;
+            vertical-align: middle;
+            padding: 10px;
+            white-space: nowrap; /* Prevent data from wrapping */
+            border-top: 1px solid #dee2e6; /* Top border for horizontal lines */
+            border-bottom: 1px solid #dee2e6; /* Bottom border for horizontal lines */
+            border-left: none; /* No left border */
+            border-right: none; /* No right border */
+        }
+
+        /* Hover effect for rows */
+        .table-hover tbody tr:hover {
+            background-color: #f8f9fa; /* Light grey background on hover */
+        }
+
+        /* Optional: Alternating row colors */
+        .table tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+    </style>
+
+
+
+
+
+
+
+<script>
+    function previewImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const image = document.getElementById('imageSrc');
+                image.src = e.target.result;
+                image.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function clearFile() {
+        document.getElementById('file').value = '';
+        const image = document.getElementById('imageSrc');
+        image.src = '';
+        image.style.display = 'none';
+    }
+</script>
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables CSS and JS -->
+
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="../../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="~/plugins/jszip/jszip.min.js"></script>
+<script src="~/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="~/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+<!-- Sweet Alert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.fancytable/dist/fancyTable.min.js"></script>
+<script src="/js/student.js"></script>

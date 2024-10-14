@@ -1,0 +1,70 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\js\assigcoursesubject.js" />
+    <Content Remove="wwwroot\js\assignCourseExam.js" />
+    <Content Remove="wwwroot\js\assignCourseStudent.js" />
+    <Content Remove="wwwroot\js\exam.js" />
+    <Content Remove="wwwroot\js\grade.js" />
+    <Content Remove="wwwroot\js\login.js" />
+    <Content Remove="wwwroot\js\student.js" />
+    <Content Remove="wwwroot\js\studentclass.js" />
+    <Content Remove="wwwroot\js\studentExam.js" />
+    <Content Remove="wwwroot\js\studentExamResult.js" />
+    <Content Remove="wwwroot\js\subject.js" />
+    <Content Remove="wwwroot\js\user.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\images\loginbackground.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\studentExamResult.js" />
+    <None Include="wwwroot\js\studentExam.js" />
+    <None Include="wwwroot\js\assignCourseStudent.js" />
+    <None Include="wwwroot\js\assignCourseExam.js" />
+    <None Include="wwwroot\js\assigcoursesubject.js" />
+    <None Include="wwwroot\js\login.js" />
+    <None Include="wwwroot\js\exam.js" />
+    <None Include="wwwroot\js\user.js" />
+    <None Include="wwwroot\js\student.js" />
+    <None Include="wwwroot\js\studentclass.js" />
+    <None Include="wwwroot\js\subject.js" />
+    <None Include="wwwroot\js\grade.js" />
+    <None Include="wwwroot\js\courses.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+    <PackageReference Include="System.Net.Mail.Abstractions" Version="1.1.21" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Pages\Class.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Pages\AssignCourseSubject.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Pages\StudentView.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

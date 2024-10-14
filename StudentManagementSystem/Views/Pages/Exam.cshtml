@@ -1,0 +1,219 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="text-center">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Add Exam</h3>
+                        </div>
+                        <form>
+                            <input type="hidden" class="form-control" id="examId" value="0" />
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="examName">Exam Name</label>
+                                    <input type="text" class="form-control" id="examName" placeholder="Enter Exam name" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="teacherName">Lecture Name</label>
+                                    <input type="text" class="form-control" id="teacherName" placeholder="Enter Teacher name" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="numberOfStudents">Number of Students</label>
+                                    <input type="number" class="form-control" id="numberOfStudents" placeholder="Enter number of students">
+                                </div>
+                                <div class="form-group">
+                                    <label for="examDate">Exam Date</label>
+                                    <input type="date" class="form-control" id="examDate">
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="isActive" checked="">
+                                    <label class="form-check-label" for="isActive">Active</label>
+                                </div>
+                            </div>
+                            <div class="card-footer text-center">
+                                    <button type="button" id="saveExamBtn" onclick="saveExam()" class="btn btn-primary me-2">Save</button>
+                                    <button type="button" id="clearExamBtn" onclick="clearExam()" class="btn btn-danger">Clear</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title">Saved Exams</h6>
+                        </div>
+                        <div class="card-body table-responsive p-0" id="datatable">
+                            <table class="table table-hover text-nowrap" id="examTable">
+                                <thead>
+                                    <tr>
+                                        <th hidden="hidden">Exam Id</th>
+                                        <th>Exam Name</th>
+                                        <th>Lecture Name</th>
+                                        <th>Number of Students</th>
+                                        <th>Exam Date</th>
+                                        <th>Active</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyExam"></tbody>
+                            </table>
+                            <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <!-- DataTable buttons will be appended here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Custom CSS -->
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+    }
+
+    .container-fluid {
+        height: 100vh; /* Full screen height */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card {
+        margin: 15px 0;
+    }
+
+    /* Ensure full width for table */
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: #212529;
+        background-color: white;
+        table-layout: auto; /* Use 'auto' for flexible column widths */
+    }
+
+        /* Ensure headers are properly aligned and centered */
+        .table th {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            vertical-align: middle;
+            padding: 15px;
+            white-space: nowrap; /* Prevent header text from wrapping */
+        }
+
+        /* Adjust table cell styling */
+        .table td {
+            background-color: #f8f9fa;
+            text-align: left;
+            vertical-align: middle;
+            padding: 15px;
+            word-wrap: break-word; /* Allow text to wrap inside the cell */
+            white-space: normal; /* Let long text break */
+            word-break: break-all; /* Break long words if needed */
+        }
+
+            /* Set a max width for certain columns to prevent long text from breaking the layout */
+            .table td:nth-child(2), /* For Exam Name */
+            .table td:nth-child(3) { /* For Teacher Name */
+                max-width: 200px; /* Set appropriate max width */
+                overflow: hidden;
+                text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+                word-break: break-word; /* Ensure long words wrap inside the cell */
+            }
+
+    /* Hover effect for rows */
+    .table-hover tbody tr:hover {
+        background-color: #d6e9f8;
+    }
+
+    /* Make sure table headers and data cells are aligned properly */
+    .table th, .table td {
+        white-space: nowrap; /* Prevent wrapping in headers and cells by default */
+    }
+
+    .table thead th {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .table td {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    /* Additional styling for DataTable pagination */
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 0.5em 1em;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        margin-left: 5px;
+        border-radius: 5px;
+    }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background-color: #0056b3;
+            color: white;
+        }
+
+</style>
+
+
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/exam.js"></script>
+<!-- Include jQuery -->
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<!-- DataTables CSS and JS -->
+<script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<script src="~/dist/js/adminlte.min.js"></script>
+<script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="~/plugins/jszip/jszip.min.js"></script>
+<script src="~/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="~/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
+
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+<!-- Sweet Alert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- Summernote CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css" rel="stylesheet">
+
+<!-- Summernote JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
+<!-- FancyTable library -->
+<script src="https://cdn.jsdelivr.net/npm/jquery.fancytable/dist/fancyTable.min.js"></script>
+<!-- Include jQuery UI -->
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+
